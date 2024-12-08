@@ -2,7 +2,9 @@ package RSA;
 
 import javax.crypto.Cipher;
 import javax.swing.JFileChooser;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -29,7 +31,7 @@ public class EncryptionPrivate {
         }
 
         // Leer la clave privada del archivo
-        String privateKeyBase64 = readKeyFromFile(privateKeyPath);
+        String privateKeyBase64 = readMessageFromFile(privateKeyPath);
 
         // Decodificar la clave privada desde Base64
         byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyBase64);
@@ -44,7 +46,7 @@ public class EncryptionPrivate {
         cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 
         // Cifrar el mensaje
-        byte[] encryptedBytes = cipher.doFinal(message.getBytes());
+        byte[] encryptedBytes = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
 
         // Devolver el mensaje cifrado en formato Base64
         return Base64.getEncoder().encodeToString(encryptedBytes);
@@ -65,7 +67,7 @@ public class EncryptionPrivate {
         }
 
         // Leer la clave pública del archivo
-        String publicKeyBase64 = readKeyFromFile(publicKeyPath);
+        String publicKeyBase64 = readMessageFromFile(publicKeyPath);
 
         // Decodificar la clave pública desde Base64
         byte[] publicKeyBytes = Base64.getDecoder().decode(publicKeyBase64);
@@ -83,18 +85,31 @@ public class EncryptionPrivate {
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedMessage));
 
         // Devolver el mensaje descifrado como cadena
-        return new String(decryptedBytes);
+        return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 
     /**
-     * Lee el contenido de un archivo que contiene una clave en formato Base64.
+     * Escribe un mensaje en un archivo.
+     *
+     * @param filePath La ruta del archivo donde se escribirá el mensaje.
+     * @param message El mensaje a escribir.
+     * @throws IOException Si ocurre un error al escribir el archivo.
+     */
+    public void writeMessageOnFile(String filePath, String message) throws IOException {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(message); // Escribe exactamente el mensaje sin caracteres adicionales
+        }
+    }
+
+    /**
+     * Lee el contenido de un archivo que contiene texto.
      *
      * @param filePath La ruta del archivo.
-     * @return La clave como una cadena en Base64.
+     * @return El contenido del archivo como cadena.
      * @throws IOException Si ocurre un error al leer el archivo.
      */
-    private String readKeyFromFile(String filePath) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(filePath))).trim();
+    private String readMessageFromFile(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8).trim();
     }
 
     /**
@@ -113,4 +128,3 @@ public class EncryptionPrivate {
         return null;
     }
 }
-

@@ -1,3 +1,5 @@
+package escom.rsa_practice;
+
 
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.SwingUtilities;

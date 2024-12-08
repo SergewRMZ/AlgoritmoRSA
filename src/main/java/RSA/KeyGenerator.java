@@ -23,7 +23,7 @@ public class KeyGenerator {
     }
 
     private void saveKeyToFile(String fileName, byte[] keyBytes) throws IOException {
-        String keyBase64 = Base64.getEncoder().encodeToString(keyBytes);
+        String keyBase64 = Base64.getEncoder().withoutPadding().encodeToString(keyBytes);
         try (FileOutputStream fos = new FileOutputStream(fileName)) {
             fos.write(keyBase64.getBytes());
         }
