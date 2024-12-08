@@ -326,7 +326,7 @@ public class Main extends javax.swing.JFrame {
                             String filename = selectedFile.getName();
                             String filenameWithoutExtension = filename.substring(0, filename.lastIndexOf('.'));
 
-                            writeMessageOnFile(filenameWithoutExtension + "RSA.txt", decryptedMessage);
+                            writeMessageOnFile(filenameWithoutExtension + "RSAd.txt", decryptedMessage);
 
                             JOptionPane.showMessageDialog(rootPane, "Descifrado correctamente y guardado en " + filename, "Descifrado Exitoso", JOptionPane.INFORMATION_MESSAGE, FontAwesomeIcons.getSuccess(25));
                         } else {
