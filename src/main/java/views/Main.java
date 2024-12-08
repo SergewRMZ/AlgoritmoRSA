@@ -292,7 +292,10 @@ public class Main extends javax.swing.JFrame {
                             // Cifrar el mensaje
                             String encryptedMessage = crypto.encryptWithPublicKey(message);
                             // Guardar el mensaje cifrado en un archivo
-                            writeMessageOnFile(selectedFile.getName() + "RSAc.txt", encryptedMessage);
+                            String filename = selectedFile.getName();
+                            String filenameWithoutExtension = filename.substring(0, filename.lastIndexOf('.'));
+
+                            writeMessageOnFile(filenameWithoutExtension + "RSAc.txt", encryptedMessage);
 
                             JOptionPane.showMessageDialog(rootPane, "Cifrado correctamente y guardado en 'mensaje_cifrado_publicKey.txt'", "Cifrado Exitoso", JOptionPane.INFORMATION_MESSAGE, FontAwesomeIcons.getSuccess(25));
                         } else {
@@ -320,8 +323,10 @@ public class Main extends javax.swing.JFrame {
                             String decryptedMessage = crypto.decryptWithPrivateKey(encryptedMessage);
 
                             // Guardar el mensaje descifrado en un archivo
-                            String filename = selectedFile.getName() + "RSAd.txt";
-                            writeMessageOnFile(filename, decryptedMessage);
+                            String filename = selectedFile.getName();
+                            String filenameWithoutExtension = filename.substring(0, filename.lastIndexOf('.'));
+
+                            writeMessageOnFile(filenameWithoutExtension + "RSA.txt", decryptedMessage);
 
                             JOptionPane.showMessageDialog(rootPane, "Descifrado correctamente y guardado en " + filename, "Descifrado Exitoso", JOptionPane.INFORMATION_MESSAGE, FontAwesomeIcons.getSuccess(25));
                         } else {
